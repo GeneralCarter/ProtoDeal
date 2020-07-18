@@ -1,0 +1,9 @@
+appsettings.development.json
+
+.vscode
+*.code-workspace
+
+**\bin
+**\obj
+
+tempkey.rsa
