@@ -57,8 +57,7 @@ namespace IdentityServer
 
                     ClientSecrets =
                     {
-                        new Secret(APIClientSecret.Sha256()),
-                        //new Secret("fwfw892lfw362".Sha256())
+                        new Secret(APIClientSecret.Sha256())
                     },
 
                     AllowedScopes = { 

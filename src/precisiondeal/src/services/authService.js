@@ -1,7 +1,7 @@
 import Oidc from 'oidc-client';
 
 var config = {
-    authority: "http://localhost:6565",
+    authority: "https://localhost:6565",
     client_id: "frontentclient",
     redirect_uri: "http://localhost:8080/callback",
     response_type: "id_token token",

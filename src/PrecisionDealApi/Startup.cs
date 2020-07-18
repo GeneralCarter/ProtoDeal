@@ -78,7 +78,7 @@ namespace PrecisionDealApi
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddIdentityServerAuthentication(options =>
                 {
-                    options.Authority = "http://localhost:6565/";
+                    options.Authority = "https://localhost:6565/";
                     options.ApiName = "pd_api";
 
                     options.RequireHttpsMetadata = false;

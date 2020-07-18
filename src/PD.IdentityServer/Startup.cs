@@ -5,9 +5,11 @@
 using IdentityServer4;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using X509Helper;
 
 namespace IdentityServer
 {
@@ -26,10 +28,21 @@ namespace IdentityServer
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.MinimumSameSitePolicy = SameSiteMode.Unspecified;
+                options.OnAppendCookie = cookieContext =>
+                    CheckSameSite(cookieContext.Context, cookieContext.CookieOptions);
+                options.OnDeleteCookie = cookieContext =>
+                    CheckSameSite(cookieContext.Context, cookieContext.CookieOptions);
+            });
+
             // uncomment, if you want to add an MVC-based UI
             services.AddControllersWithViews();
 
             var builder = services.AddIdentityServer()
+                .AddSigningCredential(X509.GetCertificate("97CB43718FBAFD80920992104CFC1902670D11BE"))   // signing.crt thumbprint
+                .AddValidationKey(X509.GetCertificate("577FB54EA4FDBDCDF42CD3CCFB27996DB8A86CA4"))       // validation.crt thumbprint
                 .AddInMemoryIdentityResources(Config.Ids)
                 .AddInMemoryApiResources(Config.Apis)
                 .AddInMemoryClients(Config.Clients)
@@ -45,6 +58,7 @@ namespace IdentityServer
                     options.SaveTokens = true;
                     options.ClientId = Config.GoogleClientId;
                     options.ClientSecret = Config.GoogleClientSecrect;
+                    //options.CorrelationCookie.SameSite = SameSiteMode.Lax;
                 });
         }
 
@@ -60,11 +74,21 @@ namespace IdentityServer
             app.UseIdentityServer();
             app.UseStaticFiles();
 
+            app.UseCookiePolicy();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                endpoints.MapDefaultControllerRoute();
             });
+        }
+
+        private void CheckSameSite(HttpContext httpContext, CookieOptions options)
+        {
+            if (!httpContext.Request.IsHttps || options.SameSite == SameSiteMode.None)
+            {
+                options.SameSite = SameSiteMode.Unspecified;
+                options.Secure = true;
+            }
         }
     }
 }
