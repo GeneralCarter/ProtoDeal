@@ -87,9 +87,6 @@ namespace PrecisionDealApi
 
                     options.JwtBearerEvents.OnTokenValidated = (context) =>
                     {
-                        // var identity = (ClaimsIdentity) context.Principal.Identity;
-                        // var email = identity.Claims.Where(c => c.Type == "email").ToList();
-
                         return Task.CompletedTask;
                     };
                 });
