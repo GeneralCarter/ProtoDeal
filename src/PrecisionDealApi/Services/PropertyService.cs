@@ -34,5 +34,11 @@ namespace PrecisionDealApi.Services
             _propertiesDB.InsertOne(property);
             return property;
         }
+
+        public void Update(Property property) {
+            // validate id belongs to user
+            property.UserId = _userContext.CurrentUser.Id;
+            _propertiesDB.ReplaceOne(p => p.Id == property.Id, property);
+        }
     }
 }

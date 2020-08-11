@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Text.Json;
 using System.Threading.Tasks;
 using IdentityServer4;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -22,6 +23,7 @@ using MongoDB.Bson.Serialization.IdGenerators;
 using MongoDB.Bson.Serialization.Serializers;
 using PrecisionDealApi.Models;
 using PrecisionDealApi.Services;
+using PrecisionDealApi.Utilities;
 
 namespace PrecisionDealApi
 {
@@ -72,8 +74,10 @@ namespace PrecisionDealApi
                     });
             });
 
-            services.AddControllers();
-            
+            services.AddControllers()
+                .AddJsonOptions(options =>
+                    options.JsonSerializerOptions.Converters.Add(new StringToDoubleConverter())
+                );
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddIdentityServerAuthentication(options =>

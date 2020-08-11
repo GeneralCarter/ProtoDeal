@@ -12,13 +12,18 @@ namespace PrecisionDealApi.Models
 
         public string Id { get; set; }
         public string PropertyName { get; set; }
-        public string Address { get; set; }
+        public string StreetAddress { get; set; }
         public string City { get; set; }
         public string State { get; set; }
         public string Zip { get; set; }
         public double Price { get; set; }
         public double ClosingCost { get; set; }
         public double DownPayment { get; set; }
+        public double InterestRate { get; set; }
+        public double LoanTerm { get; set; }
+        public double GrossRent { get; set; }
+        public double Vacancy { get; set; }
+        public double ExpensePercent { get; set; }
 
         public string UserId { get; set; }
 
