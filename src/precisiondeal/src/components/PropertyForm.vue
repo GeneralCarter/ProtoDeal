@@ -3,62 +3,114 @@
     v-model="property"
     @submit="submitHandler">
 
-    <FormulateInput
-      name="propertyName"
-      label="Property Name"
-      validation="required"
-    />
-
-    <FormulateInput
-      name="address"
-      label="Address"
-    />
-
-    <div class="pform-row">
+    <h3>Description</h3>
+    <div class="formulate-group">
       <FormulateInput
-        name="city"
-        label="City"
+        name="propertyName"
+        label="Property Name"
+        validation="required"
+      />
+    </div>
+
+    <h3>Address</h3>
+    <div class="formulate-group">
+      <FormulateInput
+        name="streetAddress"
+        label="Address"
       />
 
-      <FormulateInput
-        name="state"
-        label="State"
-      />
+      <div class="formulate-row">
+        <FormulateInput
+          name="city"
+          label="City"
+        />
 
-      <FormulateInput
-        name="zip"
-        label="Zip"
-      />
+        <FormulateInput
+          name="state"
+          label="State"
+        />
+
+        <FormulateInput
+          name="zip"
+          label="Zip"
+        />
+      </div>
     </div>
 
 
     <h3>Purchase</h3>
 
-    <FormulateInput
-      inputmode="numeric"
-      type="currency"
-      name="price"
-      label="Purchase Price"
-      validation="required|number"
-    />
+    <div class="formulate-group">
+      <FormulateInput
+        inputmode="numeric"
+        type="currency"
+        name="price"
+        label="Purchase Price"
+        validation="required|number"
+      />
 
-    <FormulateInput
-      type="currency"
-      name="closingCost"
-      label="Closing Cost"
-      validation="required|number"
-    />
-
+      <FormulateInput
+        type="currency"
+        name="closingCost"
+        label="Closing Cost"
+        validation="required|number"
+      />
+    </div>
 
     <h3>Financing</h3>
 
-    <FormulateInput
-      type="percent"
-      name="downPayment"
-      label="Down Payment"
-      validation="required|number|between:0,100"
-    />
+    <div class="formulate-group">
+      <FormulateInput
+        type="percent"
+        name="downPayment"
+        label="Down Payment"
+        validation="required|number|between:0,1"
+      />
 
+      <FormulateInput
+        type="percent"
+        name="interestRate"
+        label="Interest Rate"
+        validation="required|number|between:0,1"
+      />
+
+      <FormulateInput
+        type="number"
+        name="loanTerm"
+        label="loanTerm"
+        validation="required|number|between:1,60"
+      />
+    </div>
+
+    <h3>Income</h3>
+
+    <div class="formulate-group">
+      <FormulateInput
+        type="currency"
+        name="grossRent"
+        label="Gross Montly Rent"
+        validation="required|number|between:1,1000000"
+      />
+
+      <FormulateInput
+        type="percent"
+        name="vacancy"
+        label="Vacancy"
+        validation="required|number|between:0,1"
+      />
+    </div>
+
+    <h3>Expenses</h3>
+
+    <div class="formulate-group">
+      <FormulateInput
+        type="percent"
+        name="expensePercent"
+        help="% of Rent"
+        label="Total"
+        validation="required|number|between:0,1"
+      />
+    </div>
 
     <FormulateInput
         type="submit"
@@ -73,23 +125,25 @@ import axios from 'axios'
 
 export default {
   name: "PropertyForm",
+  props: ['model'],
   data() {
-      return {
-          property: {
-            propertyName: "test",
-            price: 20000,
-            downPayment: .16,
-            closingCost: 7500
-          }
-      }
+    return {
+      property: this.model
+    }
+  },
+  watch: {
+    model: function () {
+      this.property = this.model;
+    }
   },
   methods: {
     async submitHandler (data) {
       try {
-        var test = data;
         axios.defaults.crossDomain = true;
         axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
-        const response = await axios.post("http://localhost:5000/Property/Save", data);
+        var idParam = this.model.id ? "/" + this.model.id : "";
+        data.id = this.model.id;
+        const response = await axios.post("http://localhost:5000/properties/save" + idParam, data);
         this.property.id = response.data;
         this.$router.push({ name: 'editProperty', params: { id: this.property.id }});
       } catch (err) {
@@ -110,17 +164,45 @@ form.formulate-form {
 
 .formulate-input-wrapper {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  flex: 100%;
 }
 
-.pform-row {
+.formulate-row {
   display: flex;
 }
 
-.formulate-input{
+.formulate-input {
   margin-right: 1em;
+  display: flex;
 }
+
+.formulate-group {
+    background-color: white;
+    box-shadow: #00000054 1px 1px 2px 1px;
+    padding: .9em;
+}
+
+.formulate-input .formulate-input-label {
+  margin-right: 0.5em;
+  flex: 165px 0 1;
+  text-align: left;
+}
+
+.formulate-row .formulate-input .formulate-input-label {
+  margin-right: 0.5em;
+  flex: auto 0 1;
+  text-align: left;
+}
+
+.formulate-row .formulate-input:last-child {
+    margin-bottom: 1.5em;
+}
+
+.formulate-input-element--submit {
+  margin-top: 2em;
+}
+
 
 h3 {
   color: #41b883;

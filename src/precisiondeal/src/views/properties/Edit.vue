@@ -1,8 +1,8 @@
 <template>
   <div>
-    <h3>Edit Property</h3>
+    <h2>Edit Property</h2>
 
-    <PropertyForm/>
+    <PropertyForm v-bind:model="property" />
   </div>
 </template>
 
@@ -15,8 +15,13 @@ export default {
   components: {
     PropertyForm
   },
+  data () {
+    return {
+      property: null
+    }
+  },
   async beforeRouteEnter (to, from, next) {
-    const response = await axios.get("http://localhost:5000/Property/" + to.params.id);
+    const response = await axios.get("http://localhost:5000/properties/" + to.params.id);
     next(vm => vm.setData(response.data));
   },
   methods: {
