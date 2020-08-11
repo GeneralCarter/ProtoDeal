@@ -75,7 +75,7 @@ namespace IdentityServer
                     AllowAccessTokensViaBrowser = true,
 
                     AllowOfflineAccess = true,
-                    AccessTokenLifetime = 90, // 1.5 minutes
+                    AccessTokenLifetime = 60 * 15, // 15 minutes
                     AbsoluteRefreshTokenLifetime = 0,
                     RefreshTokenUsage = TokenUsage.OneTimeOnly,
                     RefreshTokenExpiration = TokenExpiration.Sliding,
