@@ -24,6 +24,9 @@ namespace PrecisionDealApi.Models
         public double GrossRent { get; set; }
         public double Vacancy { get; set; }
         public double ExpensePercent { get; set; }
+        public double IncomeGrowth { get; set; }
+        public double ExpenseGrowth { get; set; }
+        public double Appreciation { get; set; }
 
         public string UserId { get; set; }
 

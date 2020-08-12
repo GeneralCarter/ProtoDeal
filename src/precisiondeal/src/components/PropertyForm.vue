@@ -39,7 +39,6 @@
 
 
     <h3>Purchase</h3>
-
     <div class="formulate-group">
       <FormulateInput
         inputmode="numeric"
@@ -58,7 +57,6 @@
     </div>
 
     <h3>Financing</h3>
-
     <div class="formulate-group">
       <FormulateInput
         type="percent"
@@ -83,7 +81,6 @@
     </div>
 
     <h3>Income</h3>
-
     <div class="formulate-group">
       <FormulateInput
         type="currency"
@@ -101,13 +98,39 @@
     </div>
 
     <h3>Expenses</h3>
-
     <div class="formulate-group">
       <FormulateInput
         type="percent"
         name="expensePercent"
         help="% of Rent"
         label="Total"
+        validation="required|number|between:0,1"
+      />
+    </div>
+
+    <h3>Growth Projections</h3>
+    <div class="formulate-group">
+      <FormulateInput
+        type="percent"
+        name="incomeGrowth"
+        help="% per year"
+        label="Income Growth"
+        validation="required|number|between:0,1"
+      />
+
+      <FormulateInput
+        type="percent"
+        name="expenseGrowth"
+        help="% per year"
+        label="Expense Growth"
+        validation="required|number|between:0,1"
+      />
+
+      <FormulateInput
+        type="percent"
+        name="appreciation"
+        help="% per year"
+        label="Appreciation"
         validation="required|number|between:0,1"
       />
     </div>

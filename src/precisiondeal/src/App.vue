@@ -33,7 +33,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  background-color: #24654821;
+  background-color: #d3ffeb63;
 }
 
 #nav {
