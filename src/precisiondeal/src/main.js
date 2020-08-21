@@ -1,17 +1,21 @@
 import Vue from 'vue'
+import Vuex from 'vuex'
 import App from './App.vue'
+import { mapState } from 'vuex'
 import router from './router'
 import mgr from './services/authService'
 import axios from 'axios'
 import VueFormulate from '@braid/vue-formulate'
 import FormulateCurrencyInput from './components/formulate/FormulateCurrencyInput'
 import FormulatePercentInput from './components/formulate/FormulatePercentInput'
+import store from './store'
 
 Vue.config.productionTip = false
 
 Vue.component('FormulateCurrencyInput', FormulateCurrencyInput)
 Vue.component('FormulatePercentInput', FormulatePercentInput)
 
+Vue.use(Vuex)
 Vue.use(VueFormulate, {
   library: {
     currency: {
@@ -53,13 +57,16 @@ const globalMethods = {
   signIn (returnPath) {
     returnPath ? this.mgr.signinRedirect({ state: returnPath })
         : this.mgr.signinRedirect();
-  }
+  },
+  mapState
 }
 
 let v = new Vue({
   router,
   data: globalData,
   methods: globalMethods,
+  store: store.create(),
+  
   render: h => h(App)
 }).$mount('#app')
 

@@ -145,29 +145,34 @@
 
 <script>
 import axios from 'axios'
+import { mapState } from 'vuex'
+import types from '../types'
 
 export default {
   name: "PropertyForm",
-  props: ['model'],
   data() {
     return {
-      property: this.model
+      property: {}
     }
   },
   watch: {
-    model: function () {
-      this.property = this.model;
+    selectedProperty: function() {
+      this.property = this.selectedProperty
     }
   },
+  computed: mapState([
+    "selectedProperty"
+  ]),
   methods: {
     async submitHandler (data) {
       try {
         axios.defaults.crossDomain = true;
         axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
-        var idParam = this.model.id ? "/" + this.model.id : "";
-        data.id = this.model.id;
+        var idParam = this.property.id ? "/" + this.property.id : "";
+        data.id = this.property.id;
         const response = await axios.post("http://localhost:5000/properties/save" + idParam, data);
         this.property.id = response.data;
+        this.$store.dispatch(types.SET_CURRENT_PROPERTY, this.property)
         this.$router.push({ name: 'editProperty', params: { id: this.property.id }});
       } catch (err) {
         console.log('secure api call failed');
