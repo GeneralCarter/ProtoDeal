@@ -20,32 +20,29 @@
 </template>
 <script>
 
-import { AuthService } from '../../services/authService';
-import UserManager from '../../services/authService';
-
+import UserManager, { AuthService } from '../../services/authService'
 
 export default {
-    name: 'Nav',
-    data () {
-      return {
-        authService: new AuthService(),
-        isSignedIn: false
-      }
-    },
-    mounted () {
-      let nav = this;
-      nav.authService.getSignedIn().then(function(isSignedIn) {
-        nav.isSignedIn = isSignedIn;
-      });
+  name: 'Nav',
+  data () {
+    return {
+      authService: new AuthService(),
+      isSignedIn: false
+    }
+  },
+  mounted () {
+    let nav = this
+    nav.authService.getSignedIn().then(function (isSignedIn) {
+      nav.isSignedIn = isSignedIn
+    })
 
-      UserManager.events.addUserLoaded(function() {
-        nav.isSignedIn = true;
-      });
+    UserManager.events.addUserLoaded(function () {
+      nav.isSignedIn = true
+    })
 
-      UserManager.events.addUserUnloaded(function() {
-        nav.isSignedIn = false;
-      });
-
+    UserManager.events.addUserUnloaded(function () {
+      nav.isSignedIn = false
+    })
   }
 }
 </script>

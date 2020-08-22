@@ -1,49 +1,49 @@
-import Oidc from 'oidc-client';
+import Oidc from 'oidc-client'
 
 var config = {
-    authority: "https://localhost:6565",
-    client_id: "frontentclient",
-    redirect_uri: "http://localhost:8080/callback",
-    response_type: "id_token token",
-    scope:"openid profile pd_api email",
-    post_logout_redirect_uri : "http://localhost:8080/",
-    userStore: new Oidc.WebStorageStateStore({ store: window.localStorage }),
+  authority: 'https://localhost:6565',
+  client_id: 'frontentclient',
+  redirect_uri: 'http://localhost:8080/callback',
+  response_type: 'id_token token',
+  scope: 'openid profile pd_api email',
+  post_logout_redirect_uri: 'http://localhost:8080/',
+  userStore: new Oidc.WebStorageStateStore({ store: window.localStorage }),
 
-    automaticSilentRenew: true,
-    silent_redirect_uri: 'http://localhost:8080/static/silent-renew.html',
-    accessTokenExpiringNotificationTime: 10
-};
-var mgr = new Oidc.UserManager(config);
+  automaticSilentRenew: true,
+  silent_redirect_uri: 'http://localhost:8080/static/silent-renew.html',
+  accessTokenExpiringNotificationTime: 10
+}
+var mgr = new Oidc.UserManager(config)
 
 mgr.events.addAccessTokenExpiring(function () {
-    console.log('AccessToken Expiring：', arguments);
-  });
-  
-mgr.events.addAccessTokenExpired(function () {
-    console.log('AccessToken Expired：', arguments);
+  console.log('AccessToken Expiring：', arguments)
+})
 
-    mgr.signoutRedirect().then(function (resp) {
-        console.log('signed out', resp);
-    }).catch(function (err) {
-        console.log(err)
-    });
-});
+mgr.events.addAccessTokenExpired(function () {
+  console.log('AccessToken Expired：', arguments)
+
+  mgr.signoutRedirect().then(function (resp) {
+    console.log('signed out', resp)
+  }).catch(function (err) {
+    console.log(err)
+  })
+})
 
 export class AuthService {
- // Renew the token manually
- renewToken () {
+  // Renew the token manually
+  renewToken () {
     let self = this
     return new Promise((resolve, reject) => {
       mgr.signinSilent().then(function (user) {
         if (user == null) {
           self.signIn(null)
-        } else{
+        } else {
           return resolve(user)
         }
       }).catch(function (err) {
         console.log(err)
         return reject(err)
-      });
+      })
     })
   }
 
@@ -55,13 +55,13 @@ export class AuthService {
         if (user == null) {
           self.signIn()
           return resolve(null)
-        } else{          
+        } else {
           return resolve(user)
         }
       }).catch(function (err) {
         console.log(err)
         return reject(err)
-      });
+      })
     })
   }
 
@@ -71,15 +71,15 @@ export class AuthService {
     return new Promise((resolve, reject) => {
       mgr.getUser().then(function (user) {
         if (user == null) {
-          //self.signIn()
+          // self.signIn()
           return resolve(false)
-        } else{
+        } else {
           return resolve(true)
         }
       }).catch(function (err) {
         console.log(err)
         return reject(err)
-      });
+      })
     })
   }
 
@@ -89,11 +89,11 @@ export class AuthService {
       console.log(err)
     })
   }
-  
+
   // Redirect of the current window to the end session endpoint
-  signOut () {    
+  signOut () {
     mgr.signoutRedirect().then(function (resp) {
-      console.log('signed out', resp);
+      console.log('signed out', resp)
     }).catch(function (err) {
       console.log(err)
     })
@@ -107,85 +107,85 @@ export class AuthService {
         if (user == null) {
           self.signIn()
           return resolve(null)
-        } else{          
+        } else {
           return resolve(user.profile)
         }
       }).catch(function (err) {
         console.log(err)
         return reject(err)
-      });
+      })
     })
   }
 
   // Get the token id
-  getIdToken(){
+  getIdToken () {
     let self = this
     return new Promise((resolve, reject) => {
       mgr.getUser().then(function (user) {
         if (user == null) {
           self.signIn()
           return resolve(null)
-        } else{          
+        } else {
           return resolve(user.id_token)
         }
       }).catch(function (err) {
         console.log(err)
         return reject(err)
-      });
+      })
     })
   }
 
   // Get the session state
-  getSessionState(){
+  getSessionState () {
     let self = this
     return new Promise((resolve, reject) => {
       mgr.getUser().then(function (user) {
         if (user == null) {
           self.signIn()
           return resolve(null)
-        } else{          
+        } else {
           return resolve(user.session_state)
         }
       }).catch(function (err) {
         console.log(err)
         return reject(err)
-      });
+      })
     })
   }
 
   // Get the access token of the logged in user
-  getAcessToken(){
+  getAcessToken () {
     let self = this
     return new Promise((resolve, reject) => {
       mgr.getUser().then(function (user) {
         if (user == null) {
           self.signIn()
           return resolve(null)
-        } else{          
+        } else {
           return resolve(user.access_token)
         }
       }).catch(function (err) {
         console.log(err)
         return reject(err)
-      });
+      })
     })
   }
 
   // Takes the scopes of the logged in user
-  getScopes(){
+  getScopes () {
     let self = this
     return new Promise((resolve, reject) => {
       mgr.getUser().then(function (user) {
         if (user == null) {
           self.signIn()
           return resolve(null)
-        } else{          
+        } else {
           return resolve(user.scopes)
         }
       }).catch(function (err) {
         console.log(err)
         return reject(err)
-      });
+      })
     })
   }
 
@@ -197,15 +197,15 @@ export class AuthService {
         if (user == null) {
           self.signIn()
           return resolve(null)
-        } else{          
+        } else {
           return resolve(user.profile.role)
         }
       }).catch(function (err) {
         console.log(err)
         return reject(err)
-      });
+      })
     })
   }
 };
 
-export default mgr;
+export default mgr

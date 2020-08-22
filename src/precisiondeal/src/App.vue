@@ -5,11 +5,8 @@
   </div>
 </template>
 
-
 <script>
-import Nav from './components/partials/Nav.vue';
-import { AuthService } from './services/authService';
-let authService = new AuthService();
+import Nav from './components/partials/Nav.vue'
 
 export default {
   name: 'app',

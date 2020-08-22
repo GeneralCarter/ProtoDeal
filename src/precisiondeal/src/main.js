@@ -29,7 +29,6 @@ Vue.use(VueFormulate, {
   }
 })
 
-
 const globalData = {
   isAuthenticated: false,
   user: '',
@@ -37,26 +36,26 @@ const globalData = {
 }
 
 const globalMethods = {
-  async authenticate(returnPath) {
-    const user = await this.$root.getUser(); //see if the user details are in local storage
-    if (!!user) {
-      this.isAuthenticated = true;
-      this.user = user;
+  async authenticate (returnPath) {
+    const user = await this.$root.getUser() //see if the user details are in local storage
+    if (user) {
+      this.isAuthenticated = true
+      this.user = user
     } else {
-      await this.$root.signIn(returnPath);
+      await this.$root.signIn(returnPath)
     }
   },
   async getUser () {
     try {
-      let user = await this.mgr.getUser();
-      return user;
+      let user = await this.mgr.getUser()
+      return user
     } catch (err) {
-      console.log(err);
+      console.log(err)
     }
   },
   signIn (returnPath) {
     returnPath ? this.mgr.signinRedirect({ state: returnPath })
-        : this.mgr.signinRedirect();
+      : this.mgr.signinRedirect()
   },
   mapState
 }
@@ -66,23 +65,22 @@ let v = new Vue({
   data: globalData,
   methods: globalMethods,
   store: store.create(),
-  
+  store,
   render: h => h(App)
 }).$mount('#app')
 
-axios.defaults.crossDomain = true;
-axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
-axios.interceptors.request.use( async (config) => {
-  const user = await mgr.getUser();
+axios.defaults.crossDomain = true
+axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*'
+axios.interceptors.request.use(async (config) => {
+  const user = await mgr.getUser()
   if (user) {
-    const authToken = user.access_token;
+    const authToken = user.access_token
     if (authToken) {
-      config.headers.Authorization = `Bearer ${authToken}`;
+      config.headers.Authorization = `Bearer ${authToken}`
     }
   }
-  return config;
+  return config
 },
 (err) => {
-  //What do we do when we get errors?
-});
-
+  // What do we do when we get errors?
+})

@@ -1,9 +1,8 @@
 import Vuex from 'vuex'
 import types from './types'
 
-
 export default {
-    create: () => new Vuex.Store({
+  create: () => new Vuex.Store({
     state: {
       selectedProperty: null
     },

@@ -9,7 +9,7 @@ import Unauthorized from '../views/Unauthorized.vue'
 import { AuthService } from '../services/authService'
 
 Vue.use(VueRouter)
-let authService = new AuthService();
+let authService = new AuthService()
 
 const routes = [
   {
@@ -41,7 +41,7 @@ const routes = [
       {
         path: '',
         component: PropertyList
-      },
+      }
     ]
   },
   {
@@ -65,24 +65,24 @@ const router = new VueRouter({
 export default router
 
 router.beforeEach(async (to, from, next) => {
-  let app = router.app.$data || {isAuthenticated: false}
+  let app = router.app.$data || { isAuthenticated: false }
   if (app.isAuthenticated) {
-    //already signed in, we can navigate anywhere
+    // already signed in, we can navigate anywhere
     next()
   } else if (to.matched.some(record => record.meta.requiresAuth)) {
     authService.getRole().then(
       sucess => {
-      if (to.meta.role == sucess){
-        next();
-      } else {
-        next('/unauthorized');
-      }
-    },
-    err => {
-      console.log(err);
-    });
+        if (to.meta.role == sucess) {
+          next()
+        } else {
+          next('/unauthorized')
+        }
+      },
+      err => {
+        console.log(err)
+      })
   } else {
-    //No auth required. We can navigate
+    // No auth required. We can navigate
     next()
   }
-});
+})

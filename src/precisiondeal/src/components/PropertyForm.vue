@@ -1,5 +1,5 @@
 <template>
-  <FormulateForm 
+  <FormulateForm
     v-model="property"
     @submit="submitHandler">
 
@@ -36,7 +36,6 @@
         />
       </div>
     </div>
-
 
     <h3>Purchase</h3>
     <div class="formulate-group">
@@ -142,40 +141,39 @@
   </FormulateForm>
 </template>
 
-
 <script>
 import axios from 'axios'
 import { mapState } from 'vuex'
 import types from '../types'
 
 export default {
-  name: "PropertyForm",
-  data() {
+  name: 'PropertyForm',
+  data () {
     return {
       property: {}
     }
   },
   watch: {
-    selectedProperty: function() {
+    selectedProperty: function () {
       this.property = this.selectedProperty
     }
   },
   computed: mapState([
-    "selectedProperty"
+    'selectedProperty'
   ]),
   methods: {
     async submitHandler (data) {
       try {
-        axios.defaults.crossDomain = true;
-        axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
-        var idParam = this.property.id ? "/" + this.property.id : "";
-        data.id = this.property.id;
-        const response = await axios.post("http://localhost:5000/properties/save" + idParam, data);
-        this.property.id = response.data;
+        axios.defaults.crossDomain = true
+        axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*'
+        var idParam = this.property.id ? '/' + this.property.id : ''
+        data.id = this.property.id
+        const response = await axios.post('http://localhost:5000/properties/save' + idParam, data)
+        this.property.id = response.data
         this.$store.dispatch(types.SET_CURRENT_PROPERTY, this.property)
-        this.$router.push({ name: 'editProperty', params: { id: this.property.id }});
+        this.$router.push({ name: 'editProperty', params: { id: this.property.id } })
       } catch (err) {
-        console.log('secure api call failed');
+        console.log('secure api call failed')
       }
     }
   }
@@ -230,7 +228,6 @@ form.formulate-form {
 .formulate-input-element--submit {
   margin-top: 2em;
 }
-
 
 h3 {
   color: #41b883;

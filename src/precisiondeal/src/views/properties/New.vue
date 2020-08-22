@@ -7,14 +7,14 @@
 </template>
 
 <script>
-import PropertyForm from '../../components/PropertyForm';
+import PropertyForm from '../../components/PropertyForm'
 export default {
-  name: "NewProperty",
+  name: 'NewProperty',
   components: {
     PropertyForm
   },
   beforeRouteUpdate (to, from, next) {
-    console.log(to);
-  },
+    console.log(to)
+  }
 }
 </script>

@@ -12,11 +12,11 @@
 import axios from 'axios'
 
 export default {
-  name: "PropertyListItem",
+  name: 'PropertyListItem',
   props: ['property'],
   methods: {
     onClick: function () {
-      this.$router.push({ name: 'editProperty', params: { id: this.property.id }});
+      this.$router.push({ name: 'editProperty', params: { id: this.property.id } })
     }
   }
 }
