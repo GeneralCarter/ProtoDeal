@@ -164,8 +164,6 @@ export default {
   methods: {
     async submitHandler (data) {
       try {
-        axios.defaults.crossDomain = true
-        axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*'
         var idParam = this.property.id ? '/' + this.property.id : ''
         data.id = this.property.id
         const response = await axios.post('http://localhost:5000/properties/save' + idParam, data)

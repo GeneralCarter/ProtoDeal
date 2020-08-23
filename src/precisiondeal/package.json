@@ -16,6 +16,7 @@
     "oidc-client": "^1.10.1",
     "vue": "^2.6.12",
     "vue-router": "^3.4.3",
+    "vuetify": "^2.3.9",
     "vuex": "^3.5.1"
   },
   "devDependencies": {

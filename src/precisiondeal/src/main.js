@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Vuex from 'vuex'
+import vuetify from '@/plugins/vuetify'
 import App from './App.vue'
 import { mapState } from 'vuex'
 import router from './router'
@@ -8,14 +8,13 @@ import axios from 'axios'
 import VueFormulate from '@braid/vue-formulate'
 import FormulateCurrencyInput from './components/formulate/FormulateCurrencyInput'
 import FormulatePercentInput from './components/formulate/FormulatePercentInput'
-import store from './store'
+import store from './store/'
 
 Vue.config.productionTip = false
 
 Vue.component('FormulateCurrencyInput', FormulateCurrencyInput)
 Vue.component('FormulatePercentInput', FormulatePercentInput)
 
-Vue.use(Vuex)
 Vue.use(VueFormulate, {
   library: {
     currency: {
@@ -64,8 +63,8 @@ let v = new Vue({
   router,
   data: globalData,
   methods: globalMethods,
-  store: store.create(),
   store,
+  vuetify,
   render: h => h(App)
 }).$mount('#app')
 

@@ -1,8 +1,10 @@
 <template>
-  <div id="app">
+  <v-app>
     <Nav />
-    <router-view/>
-  </div>
+    <v-main>
+      <router-view/>
+    </v-main>
+  </v-app>
 </template>
 
 <script>
