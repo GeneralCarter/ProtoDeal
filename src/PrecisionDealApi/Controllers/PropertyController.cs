@@ -33,9 +33,10 @@ namespace PrecisionDealApi.Controllers
 
         [HttpPost]
         [Route("save/{id}")]
-        public void Update(string id, Property property)
+        public string Update(string id, Property property)
         {
             _propertyService.Update(property);
+            return id;
         }
 
         [HttpGet("{id}")]

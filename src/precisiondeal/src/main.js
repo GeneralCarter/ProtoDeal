@@ -59,7 +59,7 @@ const globalMethods = {
   mapState
 }
 
-let v = new Vue({
+new Vue({
   router,
   data: globalData,
   methods: globalMethods,

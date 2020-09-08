@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import PropertyForm from '../../components/PropertyForm'
+import PropertyForm from '../../components/VPropertyForm'
 import axios from 'axios'
 import types from '../../types'
 
@@ -21,13 +21,7 @@ export default {
 
     next(vm => {
       vm.$store.dispatch(types.SET_CURRENT_PROPERTY, response.data)
-      // vm.setData(response.data)
     })
-  },
-  methods: {
-    setData (property) {
-      this.property = property
-    }
   }
 }
 </script>

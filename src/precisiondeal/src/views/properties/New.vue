@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import PropertyForm from '../../components/PropertyForm'
+import PropertyForm from '../../components/VPropertyForm'
 export default {
   name: 'NewProperty',
   components: {
