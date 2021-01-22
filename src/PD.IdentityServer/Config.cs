@@ -17,6 +17,7 @@ namespace IdentityServer
         public static string APIClientSecret => Configuration["APIClientSecret"];
         public static string GoogleClientId => Configuration["GoogleClientId"];
         public static string GoogleClientSecrect => Configuration["GoogleClientSecrect"];
+        public static string WebAppServer => Configuration["WebAppServer"];
         public static IConfiguration Configuration;
 
         public static IEnumerable<IdentityResource> Ids =>
@@ -34,13 +35,14 @@ namespace IdentityServer
                 {
                     Name = "pd_api",
                     DisplayName = "Precision Deal Api",
-                    UserClaims = { JwtClaimTypes.Name, JwtClaimTypes.Email },
+                    UserClaims = { JwtClaimTypes.Name, JwtClaimTypes.Email, JwtClaimTypes.Id },
                     Scopes =
                     {
                         new Scope()
                         {
                             Name = "pd_api",
                             DisplayName = "pd_api",
+                            UserClaims = { JwtClaimTypes.Name, JwtClaimTypes.Email, JwtClaimTypes.Id }
                         }
                     }
                 }
@@ -99,7 +101,7 @@ namespace IdentityServer
 }
             };
 
-        public static List<TestUser> GetUsers()
+public static List<TestUser> GetUsers()
         {
             return new List<TestUser>
             {

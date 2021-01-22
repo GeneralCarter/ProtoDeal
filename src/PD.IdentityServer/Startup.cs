@@ -41,15 +41,16 @@ namespace IdentityServer
             services.AddControllersWithViews();
 
             var builder = services.AddIdentityServer()
-                .AddSigningCredential(X509.GetCertificate("97CB43718FBAFD80920992104CFC1902670D11BE"))   // signing.crt thumbprint
-                .AddValidationKey(X509.GetCertificate("577FB54EA4FDBDCDF42CD3CCFB27996DB8A86CA4"))       // validation.crt thumbprint
+                .AddSigningCredential(X509.GetCertificate(Configuration["SigningCertThumprint"]))   // signing.crt thumbprint
+                .AddValidationKey(X509.GetCertificate(Configuration["ValidationCertThumbprint"]))   // validation.crt thumbprint
                 .AddInMemoryIdentityResources(Config.Ids)
                 .AddInMemoryApiResources(Config.Apis)
                 .AddInMemoryClients(Config.Clients)
                 .AddTestUsers(Config.GetUsers());
 
             // not recommended for production - you need to store your key material somewhere secure
-            builder.AddDeveloperSigningCredential();
+            if (Environment.IsDevelopment())
+                builder.AddDeveloperSigningCredential();
 
             services.AddAuthentication()
                 .AddGoogle("Google", options =>
@@ -65,9 +66,7 @@ namespace IdentityServer
         public void Configure(IApplicationBuilder app)
         {
             if (Environment.IsDevelopment())
-            {
                 app.UseDeveloperExceptionPage();
-            }
 
             app.UseRouting();
 

@@ -2,11 +2,13 @@
   <div class="properties">
     <h2>Properties</h2>
     <router-view/>
+    <!-- <Calculator></Calculator> -->
   </div>
 </template>
 
 <script>
 import axios from 'axios'
+//import Calculator from '../calculator/loanCalculator'
 
 export default {
   name: 'Properties',
