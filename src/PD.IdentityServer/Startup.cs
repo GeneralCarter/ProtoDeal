@@ -22,6 +22,15 @@ namespace IdentityServer
         public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
             Environment = environment;
+            //Configuration = configuration;
+            Configuration = new ConfigurationBuilder()
+                .AddConfiguration(configuration)
+                .SetBasePath(environment.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{environment.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables()
+                .Build();
+
             Configuration = configuration;
             Config.Configuration = Configuration;
         }
@@ -69,7 +78,6 @@ namespace IdentityServer
                 app.UseDeveloperExceptionPage();
 
             app.UseRouting();
-
             app.UseIdentityServer();
             app.UseStaticFiles();
 
